@@ -84,7 +84,7 @@ const SAMPLE_SHOPS: ShopData[] = [
     rating: 4.5,
     reviews: 289,
     distance: "1.5 mi",
-    image: "https://images.unsplash.com/photo-1505228395891-9a51e7e86e81?w=600&h=600&fit=crop",
+    image: "https://images.pexels.com/photos/6834358/pexels-photo-6834358.jpeg",
     tags: ["Electronics", "Gadgets", "Tech"],
     description: "Latest tech gadgets and phones",
     discount: "25% OFF",
