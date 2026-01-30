@@ -52,7 +52,7 @@ const Header = () => {
           </Link>
 
           {/* Search - Desktop */}
-          <div className="hidden md:flex flex-1 max-w-md mx-4">
+          {/* <div className="hidden md:flex flex-1 max-w-md mx-4">
             <div className="relative w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -60,7 +60,7 @@ const Header = () => {
                 className="pl-10 bg-secondary border-0 focus-visible:ring-primary rounded-xl"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Navigation - Desktop */}
           <nav className="hidden md:flex items-center gap-1">

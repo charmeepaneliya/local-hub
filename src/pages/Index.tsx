@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import AdvancedSearchBar from "@/components/search/AdvancedSearchBar";
 import CategoryFilter from "@/components/home/CategoryFilter";
@@ -21,6 +22,14 @@ import RecentlyViewedSection from "@/components/feed/RecentlyViewedSection";
 import { MapPin, TrendingUp, Store, Package, Briefcase, Zap, Award, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
+interface SearchFilters {
+  category: string;
+  rating: number;
+  distance: number;
+  priceRange: string;
+  openNow: boolean;
+}
 
 // Helper function to get dynamic shop hours based on current time
 const getDynamicHours = (baseOpen: number, baseClose: number) => {
@@ -235,6 +244,14 @@ const Index = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedBusiness, setSelectedBusiness] = useState<any>(null);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const [searchFilters, setSearchFilters] = useState<SearchFilters>({
+    category: "all",
+    rating: 0,
+    distance: 100,
+    priceRange: "all",
+    openNow: false,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -243,6 +260,15 @@ const Index = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSearch = (query: string, filters: SearchFilters) => {
+    // Navigate to Explore page with search active
+    navigate(`/explore?q=${encodeURIComponent(query)}&category=${filters.category}&rating=${filters.rating}&distance=${filters.distance}`);
+  };
+
+  const handleFilterChange = (newFilters: SearchFilters) => {
+    setSearchFilters(newFilters);
+  };
 
   const handleBookAppointment = (business: AppointmentBusinessData) => {
     setSelectedBusiness({
@@ -294,7 +320,7 @@ const Index = () => {
           
           {/* Advanced Search Bar */}
           <div className="mb-8">
-            <AdvancedSearchBar />
+            <AdvancedSearchBar onSearch={handleSearch} onFilterChange={handleFilterChange} />
           </div>
 
           {/* Enhanced Stats Cards */}

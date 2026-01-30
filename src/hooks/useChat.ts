@@ -52,6 +52,7 @@ export const useChat = () => {
             category
           )
         `)
+        .eq("customer_id", user.id)
         .order("last_message_at", { ascending: false });
 
       if (error) throw error;
