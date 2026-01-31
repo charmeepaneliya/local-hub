@@ -4,6 +4,7 @@ import CategoryFilter from "@/components/home/CategoryFilter";
 import PhotoFeed from "@/components/feed/PhotoFeed";
 import ExploreCategorySection from "@/components/feed/ExploreCategorySection";
 import ReelsSection from "@/components/feed/ReelsSection";
+import ReelsPostsFeed from "@/components/feed/ReelsPostsFeed";
 import ShopCard, { ShopData } from "@/components/business/ShopCard";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -284,7 +285,8 @@ const Explore = () => {
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 space-y-6">
+                <ReelsPostsFeed />
                 <PhotoFeed activeCategory={activeCategory} />
               </div>
               <div className="space-y-6">

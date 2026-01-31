@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, MapPin, ThumbsUp, Send, Image } from "lucide-react";
+import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, MapPin, ThumbsUp, Send, Image, Check, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import EnquiryButtons from "@/components/enquiry/EnquiryButtons";
+import FollowButton from "./FollowButton";
 
 interface FeedPost {
   id: number;
+  userId: string;
   business: {
     name: string;
     image: string;
@@ -27,6 +29,7 @@ interface FeedPost {
 const allFeedPosts: FeedPost[] = [
   {
     id: 1,
+    userId: "u2",
     business: {
       name: "Fashion Hub",
       image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100&h=100&fit=crop",
@@ -46,6 +49,7 @@ const allFeedPosts: FeedPost[] = [
   },
   {
     id: 2,
+    userId: "u3",
     business: {
       name: "Textile Mart",
       image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?w=100&h=100&fit=crop",
@@ -65,6 +69,7 @@ const allFeedPosts: FeedPost[] = [
   },
   {
     id: 3,
+    userId: "u4",
     business: {
       name: "Handmade Crafts",
       image: "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=100&h=100&fit=crop",
@@ -87,6 +92,7 @@ const allFeedPosts: FeedPost[] = [
   },
   {
     id: 4,
+    userId: "u2",
     business: {
       name: "Style Studio",
       image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=100&h=100&fit=crop",
@@ -106,6 +112,7 @@ const allFeedPosts: FeedPost[] = [
   },
   {
     id: 5,
+    userId: "u4",
     business: {
       name: "Mario's Kitchen",
       image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=100&h=100&fit=crop",
@@ -125,6 +132,7 @@ const allFeedPosts: FeedPost[] = [
   },
   {
     id: 6,
+    userId: "u2",
     business: {
       name: "Dr. Smith's Clinic",
       image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=100&h=100&fit=crop",
@@ -187,48 +195,53 @@ const PhotoFeed = ({ activeCategory = "All" }: PhotoFeedProps) => {
       </h2>
       
       {displayPosts.map((post) => (
-        <div key={post.id} className="bg-card rounded-xl card-shadow overflow-hidden animate-fade-in">
-          {/* Header */}
-          <div className="flex items-center justify-between p-4">
-            <div className="flex items-center gap-3">
-              <img
-                src={post.business.image}
-                alt={post.business.name}
-                className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20"
-              />
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-semibold text-foreground">{post.business.name}</span>
-                  {post.business.verified && (
-                    <span className="w-4 h-4 rounded-full gradient-primary flex items-center justify-center">
-                      <svg className="w-2.5 h-2.5 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
-                      </svg>
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span>{post.business.category}</span>
-                  <span>•</span>
-                  <span>{post.timeAgo}</span>
+          <div key={post.id} className="bg-card rounded-xl card-shadow overflow-hidden animate-fade-in">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4">
+              <div className="flex items-center gap-3">
+                <img
+                  src={post.business.image}
+                  alt={post.business.name}
+                  className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20"
+                />
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold text-foreground">{post.business.name}</span>
+                    {post.business.verified && (
+                      <span className="w-4 h-4 rounded-full gradient-primary flex items-center justify-center">
+                        <svg className="w-2.5 h-2.5 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span>{post.business.category}</span>
+                    <span>•</span>
+                    <span>{post.timeAgo}</span>
+                  </div>
                 </div>
               </div>
+
+              <div className="flex items-center gap-2">
+                <FollowButton userId={post.userId} username={post.business.name} />
+
+                <Button variant="ghost" size="icon">
+                  <MoreHorizontal className="w-5 h-5" />
+                </Button>
+              </div>
             </div>
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="w-5 h-5" />
-            </Button>
-          </div>
 
-          {/* Content */}
-          <div className="px-4 pb-3">
-            <p className="text-foreground text-sm leading-relaxed">{post.content}</p>
-          </div>
+            {/* Content */}
+            <div className="px-4 pb-3">
+              <p className="text-foreground text-sm leading-relaxed">{post.content}</p>
+            </div>
 
-          {/* Location */}
-          <div className="px-4 pb-3 flex items-center gap-1 text-xs text-muted-foreground">
-            <MapPin className="w-3.5 h-3.5" />
-            <span>{post.location}</span>
-          </div>
+            {/* Location */}
+            <div className="px-4 pb-3 flex items-center gap-1 text-xs text-muted-foreground">
+              <MapPin className="w-3.5 h-3.5" />
+              <span>{post.location}</span>
+            </div>
 
           {/* Images */}
           {post.images.length > 0 && (
